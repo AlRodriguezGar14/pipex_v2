@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/13 15:44:06 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:21:28 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ void	ft_cmditer(t_cmd *lst, void (*f)(char **));
 void	print_commands(char **cmd_lst);
 
 // parse_inputs.c
-char	**extract_path(char **envp);
+//char	**extract_path(char **envp);
+char	*extract_path(char **envp, char *cmd);
 void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
 
 // deal with the processes
 pid_t   fork_process(void);
 void	unix_error(char *mssg);
+void	create_pipes(int pipe_fd[2]);
 
 //void	create_pipes(int fd_pipe[2]);
 //void	write_process(char *file, int *fd);

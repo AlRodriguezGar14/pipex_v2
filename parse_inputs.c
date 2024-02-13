@@ -6,16 +6,17 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:03 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/13 14:25:16 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:25:46 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**extract_path(char **envp)
+char	*extract_path(char **envp, char *cmd)
 {
 	char	**path_env;
 	char	**path_array;
+	char	*exec_path;
 
 	path_array = ft_calloc(1, 1);
 	while (*envp)
@@ -28,7 +29,15 @@ char	**extract_path(char **envp)
 		}
 		envp++;
 	}
-	return (path_array);
+	while (*path_array)
+	{
+		exec_path = ft_sprintf("%s/%s", *path_array, cmd);
+		if (access(exec_path, X_OK) == 0)
+			return (exec_path);
+		path_array++;
+	}
+	free(exec_path);
+	return (NULL);
 }
 
 static void	parse_commands(int argc, char **argv, t_cmd **cmd_list)
