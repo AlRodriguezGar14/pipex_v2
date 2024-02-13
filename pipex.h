@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/13 14:46:42 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:44:06 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ char	**extract_path(char **envp);
 void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
 
 // deal with the processes
+pid_t   fork_process(void);
+void	unix_error(char *mssg);
+
 //void	create_pipes(int fd_pipe[2]);
-//void	fork_process(int *pid);
 //void	write_process(char *file, int *fd);
 //void	read_process(char *file, int *fd);
 
