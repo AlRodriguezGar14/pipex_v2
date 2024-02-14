@@ -6,12 +6,11 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/13 19:38:59 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 06:03:42 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 static void print_inputs(char *files[2], t_cmd *cmd_list)
 {
@@ -54,12 +53,13 @@ void	exec_cmd(t_cmd *cmd_list, char **envp)
 	}
 	ft_fd_printf(STDERR_FILENO, "Execute the program: %s\n", path);
 	execve(path, cmd_list->content, envp);
+	unix_error("execve error");
 }
 
 void	child_process(char *files[2], int pipe_fd[2], t_cmd *cmd_list, char **envp)
 {
 	char 	*file_read;
-	int 	fd_in;
+	int 	file_in;
 
 	close(pipe_fd[STDIN_FILENO]);
 	file_read = ft_strdup(files[STDIN_FILENO]);
@@ -68,26 +68,28 @@ void	child_process(char *files[2], int pipe_fd[2], t_cmd *cmd_list, char **envp)
 	if (access(file_read, R_OK) != 0)
 		unix_error("can't read the input file");
 
-	fd_in = open(file_read, O_RDONLY, 0777);
-	if (fd_in == -1)
+	file_in = open(file_read, O_RDONLY, 0777);
+	if (file_in == -1)
 		unix_error("error when reading the file");
 	dup2(pipe_fd[STDOUT_FILENO], STDOUT_FILENO);
-	dup2(fd_in, STDIN_FILENO);
+	dup2(file_in, STDIN_FILENO);
+	free(file_read);
 	exec_cmd(cmd_list, envp);
 }
 
 void	parent_process(char *files[2], int pipe_fd[2], t_cmd *cmd_list, char **envp)
 {
 	char	*file_write;
-	int 	fd_out;
+	int 	file_out;
 
 	close(pipe_fd[STDOUT_FILENO]);
 	file_write = ft_strdup(files[STDOUT_FILENO]);
-	fd_out = open(file_write, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd_out == -1)
+	file_out = open(file_write, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (file_out == -1)
 		unix_error("error when writing to file");
 	dup2(pipe_fd[STDIN_FILENO], STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
+	dup2(file_out, STDOUT_FILENO);
+	free(file_write);
 	exec_cmd(cmd_list, envp);
 }
 
@@ -116,7 +118,7 @@ int	main(int argc, char **argv, char **envp)
 	waitpid(pid, &status, 0);
 	ft_printf("exit status: %d\n", status);
 	ft_printf("parent process\n");
-	child_process(files, pipe_fd, cmd_list->next, envp);
+	parent_process(files, pipe_fd, cmd_list->next, envp);
 	free_cmd_list(cmd_list);
 	return (0);
 }
