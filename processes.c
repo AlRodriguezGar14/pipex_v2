@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 08:09:02 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 08:39:31 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,31 @@ pid_t	fork_process(void)
 	return (pid);
 }
 
-void	exec_cmd(t_cmd *cmd_list, char **envp)
+void	exec_cmd(char *cmd, char **envp)
 {
 	char	*path;
+	char	**exec_args;
 
-	path = extract_path(envp, cmd_list->content[0]);
+	exec_args = ft_split(cmd, ' ');
+	if (!exec_args)
+		unix_error("split error", NULL);
+
+	path = extract_path(envp, exec_args[0]);
 	if (!path)
 	{
-		cleanup(cmd_list);
-		unix_error("path error", cmd_list->content[0]);
+		cleanup(exec_args);
+		unix_error("path error", exec_args[0]);
 	}
 	ft_fd_printf(STDERR_FILENO, "Execute the program: %s\n", path);
-	if (execve(path, cmd_list->content, envp) == -1)
-		cleanup(cmd_list);
-	unix_error("execve error", NULL);
+	if (execve(path, exec_args, envp) == -1)
+	{
+		cleanup(exec_args);
+		free(path);
+		unix_error("execve error", NULL);
+	}
 }
 
-void	in_process(char *file_read, int pipe_fd[2], t_cmd *cmd_list, char **envp)
+void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
 {
 	int 	file_in;
 
@@ -59,10 +67,10 @@ void	in_process(char *file_read, int pipe_fd[2], t_cmd *cmd_list, char **envp)
 		unix_error("error when reading the file", file_read);
 	dup2(pipe_fd[STDOUT_FILENO], STDOUT_FILENO);
 	dup2(file_in, STDIN_FILENO);
-	exec_cmd(cmd_list, envp);
+	exec_cmd(cmd, envp);
 }
 
-void	out_process(char *file_write, int pipe_fd[2], t_cmd *cmd_list, char **envp)
+void	out_process(char *file_write, int pipe_fd[2], char *cmd, char **envp)
 {
 	int 	file_out;
 
@@ -72,6 +80,5 @@ void	out_process(char *file_write, int pipe_fd[2], t_cmd *cmd_list, char **envp)
 		unix_error("write error", file_write);
 	dup2(pipe_fd[STDIN_FILENO], STDIN_FILENO);
 	dup2(file_out, STDOUT_FILENO);
-	exec_cmd(cmd_list, envp);
+	exec_cmd(cmd, envp);
 }
-

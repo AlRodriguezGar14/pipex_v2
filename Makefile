@@ -9,8 +9,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -I $(HEADERS_DIR) -I $(LIBFT)
 
 CFILES = main.c \
-		generate_cmd_list_utils.c \
-		parse_inputs.c \
+		parsers.c \
 		processes.c \
 		error.c
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_inputs.c                                     :+:      :+:    :+:   */
+/*   parsers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:03 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 07:35:33 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 08:34:44 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,4 @@ char	*extract_path(char **envp, char *cmd)
 	}
 	free(exec_path);
 	return (NULL);
-}
-
-void	parse_input(int argc, char **argv, t_cmd **cmd_list)
-{
-	int	idx;
-
-	if (argc < 5)
-		exit (EXIT_FAILURE);
-	idx = 2;
-	while (idx < argc -1)
-		ft_cmdadd_back(cmd_list, ft_cmdnew(argv[idx++]));
 }
