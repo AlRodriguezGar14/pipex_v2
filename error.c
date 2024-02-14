@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 06:06:26 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 08:41:38 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 22:43:30 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ void	unix_error(char *mssg, char *str)
 
 void cleanup(char **exec_args)
 {
+	char **tmp;
+
+	tmp = exec_args;
 	if (!exec_args)
 		return ;
-	while (*exec_args)
-		free(*exec_args++);
+
+	while (*tmp)
+		free(*tmp++);
+	free(exec_args);
 }

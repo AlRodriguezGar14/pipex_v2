@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 08:39:31 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 22:44:20 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exec_cmd(char *cmd, char **envp)
 	if (!path)
 	{
 		cleanup(exec_args);
-		unix_error("path error", exec_args[0]);
+		unix_error("path error", NULL);
 	}
 	ft_fd_printf(STDERR_FILENO, "Execute the program: %s\n", path);
 	if (execve(path, exec_args, envp) == -1)

@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:03 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 10:42:09 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 22:47:03 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*extract_path(char **envp, char *cmd)
 	char	**path_env;
 	char	**path_array;
 	char	*exec_path;
+	int 	idx;
 
 	path_array = ft_calloc(1, 1);
 	while (*envp)
@@ -29,7 +30,11 @@ char	*extract_path(char **envp, char *cmd)
 		}
 		envp++;
 	}
-	int idx = 0;
+	idx = 0;
+	while (path_env[idx])
+		free(path_env[idx++]);
+	free(path_env);
+	idx = 0;
 	while (path_array[idx])
 	{
 		exec_path = ft_sprintf("%s/%s", path_array[idx], cmd);
