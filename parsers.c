@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:03 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 08:34:44 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 10:42:09 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ char	*extract_path(char **envp, char *cmd)
 		}
 		envp++;
 	}
-	while (*path_array)
+	int idx = 0;
+	while (path_array[idx])
 	{
-		exec_path = ft_sprintf("%s/%s", *path_array, cmd);
+		exec_path = ft_sprintf("%s/%s", path_array[idx], cmd);
 		if (access(exec_path, X_OK) == 0)
 			return (exec_path);
-		path_array++;
+		free(path_array[idx++]);
+		free(exec_path);
 	}
-	free(exec_path);
 	return (NULL);
 }

@@ -1,12 +1,12 @@
 CC       = cc
 HEADERS_DIR = .
-#CFLAGS   = -Wall -Wextra -Werror -fsanitize=address -g3 -I $(HEADERS_DIR) -I $(LIBFT)
 NAME     = pipex
 RM       = rm -rf
 
 LIBFT_DIR = utils/
 LIBFT = $(LIBFT_DIR)libft.a
-CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -I $(HEADERS_DIR) -I $(LIBFT)
+# CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -I $(HEADERS_DIR) -I $(LIBFT)
+CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -fsanitize=address -I $(HEADERS_DIR) -I $(LIBFT)
 
 CFILES = main.c \
 		parsers.c \
