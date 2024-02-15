@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:03 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/15 01:13:35 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:32:29 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static char	**get_path_array(char **envp)
 		}
 		envp++;
 	}
-	if (path_env)
-		free_array(path_env);
+	free_array(path_env);
 	return (path_array);
 }
 
@@ -62,5 +61,6 @@ char	*extract_path(char **envp, char *cmd)
 		free(path_array[idx++]);
 		free(exec_path);
 	}
+	free(path_array);
 	return (NULL);
 }
