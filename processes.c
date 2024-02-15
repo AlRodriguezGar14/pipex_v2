@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/15 01:00:51 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/15 23:21:53 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
 		unix_error("file error", file_read);
 	if (access(file_read, R_OK) != 0)
 		unix_error("read error", file_read);
-	file_in = open(file_read, O_RDONLY, 0777);
+	file_in = open(file_read, O_RDONLY, 0444);
 	if (file_in == -1)
 		unix_error("error when reading the file", file_read);
 	dup2(pipe_fd[STDOUT_FILENO], STDOUT_FILENO);

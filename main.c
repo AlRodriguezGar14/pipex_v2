@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 08:32:06 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/14 08:32:06by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	pid = fork_process();
 	if (pid == 0)
 		in_process(argv[1], pipe_fd, argv[2], envp);
+	out_process(argv[4], pipe_fd, argv[3], envp);
 	waitpid(pid, &status, 0);
 	if (status != 0)
 		exit (status);
-	out_process(argv[4], pipe_fd, argv[3], envp);
 	return (0);
 }
