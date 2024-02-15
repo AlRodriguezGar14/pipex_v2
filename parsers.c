@@ -6,20 +6,29 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:03 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 22:47:03 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:13:35 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*extract_path(char **envp, char *cmd)
+static void	free_array(char **array)
+{
+	int	idx;
+
+	idx = 0;
+	while (array[idx])
+		free(array[idx++]);
+	free(array);
+}
+
+static char	**get_path_array(char **envp)
 {
 	char	**path_env;
 	char	**path_array;
-	char	*exec_path;
-	int 	idx;
 
-	path_array = ft_calloc(1, 1);
+	path_array = NULL;
+	path_env = NULL;
 	while (*envp)
 	{
 		if (ft_strncmp(*envp, "PATH=", 5) == 0)
@@ -30,10 +39,20 @@ char	*extract_path(char **envp, char *cmd)
 		}
 		envp++;
 	}
-	idx = 0;
-	while (path_env[idx])
-		free(path_env[idx++]);
-	free(path_env);
+	if (path_env)
+		free_array(path_env);
+	return (path_array);
+}
+
+char	*extract_path(char **envp, char *cmd)
+{
+	char	**path_array;
+	char	*exec_path;
+	int		idx;
+
+	path_array = get_path_array(envp);
+	if (!path_array)
+		return (NULL);
 	idx = 0;
 	while (path_array[idx])
 	{

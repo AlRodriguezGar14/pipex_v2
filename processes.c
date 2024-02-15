@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/14 22:44:20 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:00:51 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	exec_cmd(char *cmd, char **envp)
 	exec_args = ft_split(cmd, ' ');
 	if (!exec_args)
 		unix_error("split error", NULL);
-
 	path = extract_path(envp, exec_args[0]);
 	if (!path)
 	{
@@ -54,14 +53,13 @@ void	exec_cmd(char *cmd, char **envp)
 
 void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
 {
-	int 	file_in;
+	int	file_in;
 
 	close(pipe_fd[STDIN_FILENO]);
 	if (access(file_read, F_OK) != 0)
 		unix_error("file error", file_read);
 	if (access(file_read, R_OK) != 0)
 		unix_error("read error", file_read);
-
 	file_in = open(file_read, O_RDONLY, 0777);
 	if (file_in == -1)
 		unix_error("error when reading the file", file_read);
@@ -72,7 +70,7 @@ void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
 
 void	out_process(char *file_write, int pipe_fd[2], char *cmd, char **envp)
 {
-	int 	file_out;
+	int	file_out;
 
 	close(pipe_fd[STDOUT_FILENO]);
 	file_out = open(file_write, O_WRONLY | O_CREAT | O_TRUNC, 0644);
