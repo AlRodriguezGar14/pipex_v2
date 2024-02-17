@@ -12,25 +12,51 @@
 
 #include "pipex.h"
 
+
+void mid_process(char *cmd, char **envp)
+{
+	int pid;
+
+	pid = fork_process();
+
+	if (pid == 0)
+		exec_cmd(cmd, envp);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_cmd	*cmd_list;
 	t_cmd	*tmp;
 	char	*files[2];
-	int		pipe_fd[2];
+	int 	idx;
+	int		(*pipe_fd)[2];
 	int		status;
 
+	idx = -1;
+	pipe_fd = malloc(sizeof(int) * argc - 3);
+	if (!pipe_fd)
+		unix_error("malloc error", NULL);
+	while (++idx < argc -3)
+	{
+		create_pipes(pipe_fd[idx]);
+		ft_printf("pipe_fd[%d]\n", idx);
+	}
 	cmd_list = NULL;
 	parse_input(argc, argv, files, &cmd_list);
-	create_pipes(pipe_fd);
 	tmp = cmd_list;
+	idx = 0;
 	while (tmp)
 	{
-		in_process(files[STDIN_FILENO], pipe_fd, tmp->content, envp);
+		in_process(files[STDIN_FILENO], pipe_fd[idx], tmp->content, envp);
 		tmp = tmp->next;
 		while (tmp->next != NULL)
+		{	
+			dup2(pipe_fd[idx][0], STDIN_FILENO);
+			dup2(pipe_fd[++idx][1], STDOUT_FILENO);
+			mid_process(tmp->content, envp);
 			tmp = tmp->next;
-		out_process(files[STDOUT_FILENO], pipe_fd, tmp->content, envp);
+		}
+		out_process(files[STDOUT_FILENO], pipe_fd[idx], tmp->content, envp);
 		tmp = tmp->next;
 	}
 	waitpid(-1, &status, 0);

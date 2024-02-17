@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/16 02:29:23 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/17 06:14:15 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	exec_cmd(char *cmd, char **envp)
 		unix_error("execve error", NULL);
 	}
 }
+
 
 void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
 {

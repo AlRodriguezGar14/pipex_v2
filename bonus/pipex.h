@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/17 00:31:28 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/17 06:13:53 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	create_pipes(int pipe_fd[2]);
 void	exec_cmd(char *cmd, char **envp);
 void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp);
 void	out_process(char *file_write, int pipe_fd[2], char *cmd, char **envp);
+
 
 // error
 void	unix_error(char *mssg, char *str);

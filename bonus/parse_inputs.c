@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 23:55:59 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/17 01:01:55 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/17 04:21:21 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static char	*parse_file(char **str_list, int idx)
 
 void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list)
 {
-	if (argc != 5)
-		exit (127);
 	files[STDIN_FILENO] = parse_file(argv, 1);
 	files[STDOUT_FILENO] = parse_file(argv, argc - 1);
 	parse_commands(argc, argv, cmd_list);
