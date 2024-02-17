@@ -11,6 +11,8 @@ CFLAGS   = -Wall -Wextra -Werror -g3 -o3  -I $(HEADERS_DIR) -I $(LIBFT_DIR)
 
 CFILES = main.c \
 		parsers.c \
+		parse_inputs.c \
+		build_cmd_list.c \
 		processes.c \
 		error.c
 

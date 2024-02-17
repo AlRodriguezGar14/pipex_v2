@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/16 02:33:26 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:28:07by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,27 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_cmd	*cmd_list;
+	t_cmd	*tmp;
+	char	*files[2];
 	int		pipe_fd[2];
-	int		count;
 	int		status;
 
-	if (argc != 5)
-		exit (2);
+	cmd_list = NULL;
+	parse_input(argc, argv, files, &cmd_list);
 	create_pipes(pipe_fd);
-	count = -1;
-	while (++count < 2)
+	tmp = cmd_list;
+	while (tmp)
 	{
-		if (count == 0)
-			in_process(argv[1], pipe_fd, argv[2], envp);
-		else if (count == 1)
-			out_process(argv[4], pipe_fd, argv[3], envp);
+		in_process(files[STDIN_FILENO], pipe_fd, tmp->content, envp);
+		tmp = tmp->next;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		out_process(files[STDOUT_FILENO], pipe_fd, tmp->content, envp);
+		tmp = tmp->next;
 	}
 	waitpid(-1, &status, 0);
+	cleanup_struct(cmd_list);
 	if (status != 0)
 		return (status);
 	return (0);

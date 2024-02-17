@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/15 01:16:13 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:31:28 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,20 @@
 
 typedef struct s_cmd
 {
-	char			**content;
+	char			*content;
 	struct s_cmd	*next;
 }	t_cmd;
 
 // parse_inputs.c
+void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
 //char	**extract_path(char **envp);
 char	*extract_path(char **envp, char *cmd);
+
+// build cmd list
+t_cmd	*ft_cmdnew(void *content);
+void	ft_cmdadd_back(t_cmd **lst, t_cmd *new);
+void	ft_cmditer(t_cmd *lst, void (*f)(char **));
+void	cleanup_struct(t_cmd *cmd_list);
 
 // deal with the processes
 pid_t	fork_process(void);
