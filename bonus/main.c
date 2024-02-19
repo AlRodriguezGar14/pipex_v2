@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/17 00:28:07by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 00:14:13 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,13 @@ int main(int argc, char **argv, char **envp)
             next_pipe[1] = out_file_open(files[STDOUT_FILENO]);
         if (cmd_list == head)
             pipe_fd[STDIN_FILENO] = in_file_open(files[STDIN_FILENO]);
+        ft_printf("cmd_list->content: %s\n", cmd_list->content);
         run_process(cmd_list->content, envp, pipe_fd, next_pipe);
         advance_pipe(pipe_fd, next_pipe);
         cmd_list = cmd_list->next;
     }
     waitpid(-1, &status, 0);
+    if (!ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")))
+        unlink(files[STDIN_FILENO]);
     return (close_pipes(pipe_fd, next_pipe), cleanup_struct(head), status);
 }

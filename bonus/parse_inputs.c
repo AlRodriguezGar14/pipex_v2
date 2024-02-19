@@ -6,17 +6,14 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 23:55:59 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/19 01:04:44 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 00:19:05 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	parse_commands(int argc, char **argv, t_cmd **cmd_list)
+static void	parse_commands(int argc, char **argv, t_cmd **cmd_list, int idx)
 {
-	int	idx;
-
-	idx = 2;
 	while (idx < argc -1)
 		ft_cmdadd_back(cmd_list, ft_cmdnew(argv[idx++]));
 }
@@ -32,9 +29,36 @@ static char	*parse_file(char **str_list, int idx)
 	return (file);
 }
 
+static void	parse_here_doc(char **argv)
+{
+	int		in_file;
+	char	*line;
+
+	in_file = open("/tmp/here_doc", O_CREAT | O_RDWR, 0644);
+	line = get_next_line(STDIN_FILENO);
+	while (ft_strncmp(line, argv[2], ft_strlen(argv[2])))
+	{
+		write(in_file, line, ft_strlen(line));
+		free(line);
+		line = get_next_line(STDIN_FILENO);
+	}
+	close(in_file);
+}
+
 void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list)
 {
-	files[STDIN_FILENO] = parse_file(argv, 1);
+	int	idx;
+
+	idx = 2;
 	files[STDOUT_FILENO] = parse_file(argv, argc - 1);
-	parse_commands(argc, argv, cmd_list);
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+	{
+		ft_printf("Write your input followed by new-line:\n");
+		parse_here_doc(argv);
+		files[STDIN_FILENO] = ft_strdup("/tmp/here_doc");
+		idx++;
+	}
+	else
+		files[STDIN_FILENO] = parse_file(argv, 1);
+	parse_commands(argc, argv, cmd_list, idx);
 }
