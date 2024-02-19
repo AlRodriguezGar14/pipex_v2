@@ -12,6 +12,18 @@
 
 #include "pipex.h"
 
+void    close_pipes(int pipe[2], int next_pipe[2])
+{
+    if (pipe && pipe[STDIN_FILENO])
+        close(pipe[STDIN_FILENO]);
+    if (pipe && pipe[STDOUT_FILENO])
+        close(pipe[STDOUT_FILENO]);
+    if (next_pipe && next_pipe[STDIN_FILENO])
+        close(next_pipe[STDIN_FILENO]);
+    if (next_pipe && next_pipe[STDOUT_FILENO])
+        close(next_pipe[STDOUT_FILENO]);
+}
+
 int	in_file_open(char *file_read)
 {
 	int file_in;
@@ -35,69 +47,52 @@ int	out_file_open(char *file_write)
 	return (file_out);
 }
 
-void mid_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2])
+void run_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2])
 {
     int pid = fork_process();
     if (pid == 0)
     {
-		dup2(pipe_in[0], STDIN_FILENO);
-		close(pipe_in[0]);
-		close(pipe_in[1]);
+		dup2(pipe_in[STDIN_FILENO], STDIN_FILENO);
+		close(pipe_in[STDOUT_FILENO]);
 
-		dup2(pipe_out[1], STDOUT_FILENO);
-		close(pipe_out[0]);
-		close(pipe_out[1]);
+		dup2(pipe_out[STDOUT_FILENO], STDOUT_FILENO);
+		close(pipe_out[STDIN_FILENO]);
         exec_cmd(cmd, envp);
     }
     if (pipe_in)
-    	close(pipe_in[0]);
+    	close(pipe_in[STDIN_FILENO]);
+}
+
+void advance_pipe(int prev_pipe[2], int next_pipe[2])
+{
+    close_pipes(prev_pipe, NULL);
+    prev_pipe[STDIN_FILENO] = next_pipe[STDIN_FILENO];
+    prev_pipe[STDOUT_FILENO] = next_pipe[STDOUT_FILENO];
 }
 
 int main(int argc, char **argv, char **envp)
 {
     t_cmd *cmd_list;
-    t_cmd *tmp;
+    t_cmd *head;
     char *files[2];
     int status;
-    int file_in;
-    int file_out;
-    int pipe_fd[2] = {-1, -1};
+    int pipe_fd[2];
+    int next_pipe[2];
 
     cmd_list = NULL;
     parse_input(argc, argv, files, &cmd_list);
-    file_in = in_file_open(files[STDIN_FILENO]);
-    file_out = out_file_open(files[STDOUT_FILENO]);
-    tmp = cmd_list;
-
-    while(tmp)
+    head = cmd_list;
+    while(cmd_list)
     {
-        int next_pipe[2] = {-1, -1};
-        if (tmp->next)
-            create_pipes(next_pipe);
-        else
-            next_pipe[1] = file_out;
-        if (tmp == cmd_list)
-        {
-            int in_pipe[2] = {file_in, -1};
-            mid_process(tmp->content, envp, in_pipe, next_pipe);
-        }
-        else
-            mid_process(tmp->content, envp, pipe_fd, next_pipe);
-        if (pipe_fd[0])
-            close(pipe_fd[0]);
-        if (pipe_fd[1])
-            close(pipe_fd[1]);
-        pipe_fd[0] = next_pipe[0];
-        pipe_fd[1] = next_pipe[1];
-        tmp = tmp->next;
+        create_pipes(next_pipe);
+        if (!cmd_list->next)
+            next_pipe[1] = out_file_open(files[STDOUT_FILENO]);
+        if (cmd_list == head)
+            pipe_fd[STDIN_FILENO] = in_file_open(files[STDIN_FILENO]);
+        run_process(cmd_list->content, envp, pipe_fd, next_pipe);
+        advance_pipe(pipe_fd, next_pipe);
+        cmd_list = cmd_list->next;
     }
-
-    if (pipe_fd[0])
-        close(pipe_fd[0]);
-
     waitpid(-1, &status, 0);
-    cleanup_struct(cmd_list);
-    if (status != 0)
-        return (status);
-    return (0);
+    return (close_pipes(pipe_fd, next_pipe), cleanup_struct(head), status);
 }
