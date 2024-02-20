@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/17 06:13:53 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:18:31 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,23 @@
 # define NO_SUCH_FILE 2
 # define CMD_NOT_FOUND 127
 # define WRONG_INPUT 2
+# define STDIN	0
+# define STDOUT 1
 
 typedef struct s_cmd
 {
 	char			*content;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_pipe
+{
+	char	*files[2];
+	int		pipe_fd[2];
+	int		next_pipe[2];
+	t_cmd	*cmd_list;
+	t_cmd	*cmd_head;
+}	t_pipe;
 
 // parse_inputs.c
 void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
@@ -41,7 +52,8 @@ char	*extract_path(char **envp, char *cmd);
 t_cmd	*ft_cmdnew(void *content);
 void	ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmditer(t_cmd *lst, void (*f)(char **));
-void	cleanup_struct(t_cmd *cmd_list);
+// void	cleanup_struct(t_cmd *cmd_list);
+void	cleanup_struct(t_pipe *pipe);
 
 // deal with the processes
 pid_t	fork_process(void);

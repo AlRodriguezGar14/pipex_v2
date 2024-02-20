@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:13:14 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/17 01:02:44 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 03:05:03 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,16 @@ void	ft_cmditer(t_cmd *lst, void (*f)(char **))
 	}
 }
 
-void	cleanup_struct(t_cmd *cmd_list)
+void	cleanup_struct(t_pipe *pipe)
 {
 	t_cmd *tmp;
 
-	while (cmd_list)
+	while (pipe->cmd_head)
 	{
-		tmp = cmd_list;
-		cmd_list = cmd_list->next;
+		tmp = pipe->cmd_head;
+		pipe->cmd_head = pipe->cmd_head->next;
 		free(tmp->content);
 		free(tmp);
 	}
+	free(pipe);
 }

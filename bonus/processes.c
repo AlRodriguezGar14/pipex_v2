@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/18 20:27:07 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 03:07:10 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,54 +42,10 @@ void	exec_cmd(char *cmd, char **envp)
 		cleanup(exec_args);
 		unix_error("path error", NULL);
 	}
-	ft_fd_printf(STDERR_FILENO, "Execute the program: %s\n", path);
 	if (execve(path, exec_args, envp) == -1)
 	{
 		cleanup(exec_args);
 		free(path);
 		unix_error("execve error", NULL);
-	}
-}
-
-
-void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
-{
-	int	file_in;
-	int	pid;
-
-	if (access(file_read, F_OK) != 0)
-		unix_error("file error", file_read);
-	if (access(file_read, R_OK) != 0)
-		unix_error("read error", file_read);
-	file_in = open(file_read, O_RDONLY, 0444);
-	if (file_in == -1)
-		unix_error("error when reading the file", file_read);
-	pid = fork_process();
-	dup2(pipe_fd[STDOUT_FILENO], STDOUT_FILENO);
-	dup2(file_in, STDIN_FILENO);
-	if (pid == 0)
-	{
-		close(pipe_fd[STDIN_FILENO]);
-		// dup2(pipe_fd[STDOUT_FILENO], STDOUT_FILENO);
-		// dup2(file_in, STDIN_FILENO);
-		exec_cmd(cmd, envp);
-	}
-}
-
-void	out_process(char *file_write, int pipe_fd[2], char *cmd, char **envp)
-{
-	// int	file_out;
-	(void)file_write;
-	int	pid;
-
-	pid = fork_process();
-	dup2(pipe_fd[STDIN_FILENO], STDIN_FILENO);
-	// dup2(file_out, STDOUT_FILENO);
-	if (pid == 0)
-	{
-		close(pipe_fd[STDOUT_FILENO]);
-		// dup2(pipe_fd[STDIN_FILENO], STDIN_FILENO);
-		// dup2(file_out, STDOUT_FILENO);
-		exec_cmd(cmd, envp);
 	}
 }

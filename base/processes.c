@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/16 02:29:23 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:17:18 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp)
 	pid = fork_process();
 	if (pid == 0)
 	{
-		close(pipe_fd[STDIN_FILENO]);
-		dup2(pipe_fd[STDOUT_FILENO], STDOUT_FILENO);
-		dup2(file_in, STDIN_FILENO);
+		close(pipe_fd[STDIN]);
+		dup2(pipe_fd[STDOUT], STDOUT);
+		dup2(file_in, STDIN);
 		exec_cmd(cmd, envp);
 	}
 }
@@ -84,9 +84,9 @@ void	out_process(char *file_write, int pipe_fd[2], char *cmd, char **envp)
 	pid = fork_process();
 	if (pid == 0)
 	{
-		close(pipe_fd[STDOUT_FILENO]);
-		dup2(pipe_fd[STDIN_FILENO], STDIN_FILENO);
-		dup2(file_out, STDOUT_FILENO);
+		close(pipe_fd[STDOUT]);
+		dup2(pipe_fd[STDIN], STDIN);
+		dup2(file_out, STDOUT);
 		exec_cmd(cmd, envp);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 23:55:59 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 00:19:05 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:17:18 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ static void	parse_here_doc(char **argv)
 	char	*line;
 
 	in_file = open("/tmp/here_doc", O_CREAT | O_RDWR, 0644);
-	line = get_next_line(STDIN_FILENO);
+	line = get_next_line(STDIN);
 	while (ft_strncmp(line, argv[2], ft_strlen(argv[2])))
 	{
 		write(in_file, line, ft_strlen(line));
 		free(line);
-		line = get_next_line(STDIN_FILENO);
+		line = get_next_line(STDIN);
 	}
 	close(in_file);
 }
@@ -50,15 +50,15 @@ void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list)
 	int	idx;
 
 	idx = 2;
-	files[STDOUT_FILENO] = parse_file(argv, argc - 1);
+	files[STDOUT] = parse_file(argv, argc - 1);
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 	{
 		ft_printf("Write your input followed by new-line:\n");
 		parse_here_doc(argv);
-		files[STDIN_FILENO] = ft_strdup("/tmp/here_doc");
+		files[STDIN] = ft_strdup("/tmp/here_doc");
 		idx++;
 	}
 	else
-		files[STDIN_FILENO] = parse_file(argv, 1);
+		files[STDIN] = parse_file(argv, 1);
 	parse_commands(argc, argv, cmd_list, idx);
 }
