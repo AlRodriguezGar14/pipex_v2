@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 04:18:31 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 07:04:26 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <sys/wait.h>
 # include "utils/libft.h"
 
-// definition of errors
 # define NO_SUCH_FILE 2
 # define CMD_NOT_FOUND 127
 # define WRONG_INPUT 2
@@ -45,28 +44,26 @@ typedef struct s_pipe
 
 // parse_inputs.c
 void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
-//char	**extract_path(char **envp);
 char	*extract_path(char **envp, char *cmd);
 
 // build cmd list
 t_cmd	*ft_cmdnew(void *content);
 void	ft_cmdadd_back(t_cmd **lst, t_cmd *new);
 void	ft_cmditer(t_cmd *lst, void (*f)(char **));
-// void	cleanup_struct(t_cmd *cmd_list);
 void	cleanup_struct(t_pipe *pipe);
 
 // deal with the processes
-pid_t	fork_process(void);
+void	run_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2]);
 void	create_pipes(int pipe_fd[2]);
-//void	exec_cmd(t_cmd *cmd_list, char **envp);
-void	exec_cmd(char *cmd, char **envp);
-void	in_process(char *file_read, int pipe_fd[2], char *cmd, char **envp);
-void	out_process(char *file_write, int pipe_fd[2], char *cmd, char **envp);
-
+void	close_pipes(int pipe[2], int next_pipe[2]);
+void	advance_pipe(int prev_pipe[2], int next_pipe[2]);
 
 // error
 void	unix_error(char *mssg, char *str);
-//void	cleanup(t_cmd *cmd_list);
 void	cleanup(char **exec_args);
+
+// deal with files
+int		in_file_open(char *file_read);
+int		out_file_open(char *file_write);
 
 #endif

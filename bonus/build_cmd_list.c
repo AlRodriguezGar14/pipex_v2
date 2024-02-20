@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:13:14 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 03:05:03 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 06:20:20 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_cmditer(t_cmd *lst, void (*f)(char **))
 
 void	cleanup_struct(t_pipe *pipe)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	while (pipe->cmd_head)
 	{

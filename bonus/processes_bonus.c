@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processes.c                                        :+:      :+:    :+:   */
+/*   processes_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 03:07:10 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/20 07:05:42 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	create_pipes(int pipe_fd[2])
-{
-	if (pipe(pipe_fd) == -1)
-		unix_error("pipe error", NULL);
-}
-
-pid_t	fork_process(void)
+static pid_t	fork_process(void)
 {
 	pid_t	pid;
 
@@ -28,7 +22,7 @@ pid_t	fork_process(void)
 	return (pid);
 }
 
-void	exec_cmd(char *cmd, char **envp)
+static void	exec_cmd(char *cmd, char **envp)
 {
 	char	*path;
 	char	**exec_args;
@@ -48,4 +42,21 @@ void	exec_cmd(char *cmd, char **envp)
 		free(path);
 		unix_error("execve error", NULL);
 	}
+}
+
+void	run_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2])
+{
+	int	pid;
+
+	pid = fork_process();
+	if (pid == 0)
+	{
+		dup2(pipe_in[STDIN], STDIN);
+		close(pipe_in[STDOUT]);
+		dup2(pipe_out[STDOUT], STDOUT);
+		close(pipe_out[STDIN]);
+		exec_cmd(cmd, envp);
+	}
+	if (pipe_in)
+		close(pipe_in[STDIN]);
 }
