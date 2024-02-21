@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 06:13:46 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 20:44:09 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:47:33 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	out_file_open(char *file_write)
 {
 	int	file_out;
 
-	// file_out = open(file_write, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	file_out = open(file_write, O_WRONLY | O_TRUNC, 0644);
 	if (file_out == -1)
 		unix_error("write error", file_write);
@@ -43,7 +42,7 @@ void	out_file_create(char *file_write)
 
 	if (access(file_write, F_OK) != 0)
 	{
-		file_out = open(file_write, O_CREAT, 0644);	
+		file_out = open(file_write, O_CREAT, 0644);
 		close (file_out);
 	}
 }

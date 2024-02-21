@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 20:36:49 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:48:16 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ static t_pipe	*init_struct(int argc, char **argv)
 	pipe->cmd_list = NULL;
 	parse_input(argc, argv, pipe->files, &pipe->cmd_list);
 	pipe->cmd_head = pipe->cmd_list;
-	// pipe->files_out_fd = out_file_open(pipe->files[STDOUT]);
-    pipe->pipe_fd[STDIN] = -1;
-    pipe->pipe_fd[STDOUT] = -1;
-    pipe->next_pipe[STDIN] = -1;
-    pipe->next_pipe[STDOUT] = -1;
+	pipe->pipe_fd[STDIN] = -1;
+	pipe->pipe_fd[STDOUT] = -1;
+	pipe->next_pipe[STDIN] = -1;
+	pipe->next_pipe[STDOUT] = -1;
 	return (pipe);
 }
 

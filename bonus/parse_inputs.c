@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 23:55:59 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 04:17:18 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:36:11 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	parse_here_doc(char **argv)
 		free(line);
 		line = get_next_line(STDIN);
 	}
+	free(line);
 	close(in_file);
 }
 
