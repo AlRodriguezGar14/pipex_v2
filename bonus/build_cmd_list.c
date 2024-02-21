@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:13:14 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 06:20:20 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:09:24 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	cleanup_struct(t_pipe *pipe)
 {
 	t_cmd	*tmp;
 
+	free(pipe->files[0]);
+	free(pipe->files[1]);
 	while (pipe->cmd_head)
 	{
 		tmp = pipe->cmd_head;

@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 07:04:26 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:35 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_cmditer(t_cmd *lst, void (*f)(char **));
 void	cleanup_struct(t_pipe *pipe);
 
 // deal with the processes
+pid_t	fork_process(void);
 void	run_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2]);
 void	create_pipes(int pipe_fd[2]);
 void	close_pipes(int pipe[2], int next_pipe[2]);
@@ -61,6 +62,7 @@ void	advance_pipe(int prev_pipe[2], int next_pipe[2]);
 // error
 void	unix_error(char *mssg, char *str);
 void	cleanup(char **exec_args);
+void	print_error(char *mssg, char *str);
 
 // deal with files
 int		in_file_open(char *file_read);

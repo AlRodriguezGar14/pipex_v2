@@ -7,8 +7,8 @@ LIBFT_DIR = utils/
 LIBFT = $(LIBFT_DIR)libft.a
 # CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -I $(HEADERS_DIR) -I $(LIBFT)
 # CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -fsanitize=address -I $(HEADERS_DIR) -I $(LIBFT_DIR)
-#CFLAGS   = -Wall -Wextra -Werror -g3 -o3  -I $(HEADERS_DIR) -I $(LIBFT_DIR)
-CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -fsanitize=address  -I $(HEADERS_DIR) -I $(LIBFT_DIR)
+CFLAGS   = -Wall -Wextra -Werror -g3 -o3  -I $(HEADERS_DIR) -I $(LIBFT_DIR)
+#CFLAGS   = -Wall -Wextra -Werror -g3 -o3 -fsanitize=address  -I $(HEADERS_DIR) -I $(LIBFT_DIR)
 
 CFILES = main_bonus.c \
 		parse_inputs.c \

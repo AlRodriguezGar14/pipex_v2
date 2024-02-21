@@ -6,13 +6,13 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 07:05:42 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:37:59 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static pid_t	fork_process(void)
+pid_t	fork_process(void)
 {
 	pid_t	pid;
 
