@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 19:08:01 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:17:08 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_pipe	*init_struct(int argc, char **argv)
 	pipe->cmd_list = NULL;
 	parse_input(argc, argv, pipe->files, &pipe->cmd_list);
 	pipe->cmd_head = pipe->cmd_list;
+	pipe->files_out_fd = out_file_open(pipe->files[STDOUT]);
     pipe->pipe_fd[STDIN] = -1;
     pipe->pipe_fd[STDOUT] = -1;
     pipe->next_pipe[STDIN] = -1;
@@ -43,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			create_pipes(pipe->next_pipe);
 			if (!pipe->cmd_list->next)
-				pipe->next_pipe[1] = out_file_open(pipe->files[STDOUT]);
+				pipe->next_pipe[STDOUT] = pipe->files_out_fd;
 			if (pipe->cmd_list == pipe->cmd_head)
 				pipe->pipe_fd[STDIN] = in_file_open(pipe->files[STDIN]);
 			run_process(pipe->cmd_list->content, envp,
@@ -59,4 +60,5 @@ int	main(int argc, char **argv, char **envp)
 	cleanup_struct(pipe);
 	if (status != 0)
 		return (EXIT_FAILURE);
+	return (0);
 }

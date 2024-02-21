@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 18:38:35 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:21:29 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_cmd
 typedef struct s_pipe
 {
 	char	*files[2];
+	int		files_out_fd;
 	int		pipe_fd[2];
 	int		next_pipe[2];
 	t_cmd	*cmd_list;
@@ -62,7 +63,6 @@ void	advance_pipe(int prev_pipe[2], int next_pipe[2]);
 // error
 void	unix_error(char *mssg, char *str);
 void	cleanup(char **exec_args);
-void	print_error(char *mssg, char *str);
 
 // deal with files
 int		in_file_open(char *file_read);

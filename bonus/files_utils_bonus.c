@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 06:13:46 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/20 06:28:06 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:18:00 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	in_file_open(char *file_read)
 		unix_error("error when reading the file", file_read);
 	return (file_in);
 }
+
 
 int	out_file_open(char *file_write)
 {
