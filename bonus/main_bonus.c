@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 18:39:24 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:08:01 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ int	main(int argc, char **argv, char **envp)
 				pipe->next_pipe[1] = out_file_open(pipe->files[STDOUT]);
 			if (pipe->cmd_list == pipe->cmd_head)
 				pipe->pipe_fd[STDIN] = in_file_open(pipe->files[STDIN]);
-			ft_printf("cmd_list->content: %s\n", pipe->cmd_list->content);
 			run_process(pipe->cmd_list->content, envp,
 				pipe->pipe_fd, pipe->next_pipe);
 			advance_pipe(pipe->pipe_fd, pipe->next_pipe);
 			pipe->cmd_list = pipe->cmd_list->next;
 		}
-		exit (0);
 	}
-	waitpid(-1, &status, 0);
+	waitpid(pid, &status, 0);
 	if (!ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")))
 		unlink(pipe->files[STDIN]);
-	return (close_pipes(pipe->pipe_fd, pipe->next_pipe),
-		cleanup_struct(pipe), status);
+	close_pipes(pipe->pipe_fd, pipe->next_pipe);
+	cleanup_struct(pipe);
+	if (status != 0)
+		return (EXIT_FAILURE);
 }

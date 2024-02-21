@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 18:37:59 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:16:18 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ static void	exec_cmd(char *cmd, char **envp)
 		unix_error("split error", NULL);
 	path = extract_path(envp, exec_args[0]);
 	if (!path)
-	{
-		cleanup(exec_args);
-		unix_error("path error", NULL);
-	}
+		unix_error("command error", exec_args[0]);
 	if (execve(path, exec_args, envp) == -1)
 	{
 		cleanup(exec_args);

@@ -13,7 +13,7 @@ CFLAGS   = -Wall -Wextra -Werror -g3 -o3  -I $(HEADERS_DIR) -I $(LIBFT_DIR)
 CFILES = main_bonus.c \
 		parse_inputs.c \
 		build_cmd_list.c \
-		../base/error.c \
+		error.c \
 		extract_path_bonus.c \
 		pipes_bonus.c \
 		processes_bonus.c \

@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/16 02:33:26 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:52:08 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,5 @@ int	main(int argc, char **argv, char **envp)
 			out_process(argv[4], pipe_fd, argv[3], envp);
 	}
 	waitpid(-1, &status, 0);
-	if (status != 0)
-		return (status);
-	return (0);
+	return (status);
 }

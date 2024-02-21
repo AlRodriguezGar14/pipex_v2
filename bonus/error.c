@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 06:06:26 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/15 21:39:02 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:14:50 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	unix_error(char *mssg, char *str)
 	if (!str)
 		ft_fd_printf(STDERR_FILENO, "%s: %s\n", mssg, strerror(errno));
 	else
-		ft_fd_printf(STDERR_FILENO, "%s, %s: %s\n", str, mssg, strerror(errno));
+		ft_fd_printf(STDERR_FILENO, "<%s> %s: %s\n", str, mssg, strerror(errno));
 	exit (127);
 }
 
