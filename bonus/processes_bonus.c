@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:53:30 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 19:16:18 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:42:44 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,21 @@ void	run_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2])
 	}
 	if (pipe_in)
 		close(pipe_in[STDIN]);
+}
+
+void	run_pipes(t_pipe *pipe, char **envp)
+{
+	out_file_create(pipe->files[STDOUT]);
+	while (pipe->cmd_list)
+	{
+		create_pipes(pipe->next_pipe);
+		if (!pipe->cmd_list->next)
+			pipe->next_pipe[STDOUT] = out_file_open(pipe->files[STDOUT]);
+		if (pipe->cmd_list == pipe->cmd_head)
+			pipe->pipe_fd[STDIN] = in_file_open(pipe->files[STDIN]);
+		run_process(pipe->cmd_list->content, envp,
+			pipe->pipe_fd, pipe->next_pipe);
+		advance_pipe(pipe->pipe_fd, pipe->next_pipe);
+		pipe->cmd_list = pipe->cmd_list->next;
+	}
 }

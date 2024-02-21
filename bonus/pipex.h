@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 20:21:29 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:42:11 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_cmd
 typedef struct s_pipe
 {
 	char	*files[2];
-	int		files_out_fd;
 	int		pipe_fd[2];
 	int		next_pipe[2];
 	t_cmd	*cmd_list;
@@ -50,11 +49,12 @@ char	*extract_path(char **envp, char *cmd);
 // build cmd list
 t_cmd	*ft_cmdnew(void *content);
 void	ft_cmdadd_back(t_cmd **lst, t_cmd *new);
-void	ft_cmditer(t_cmd *lst, void (*f)(char **));
+// void	ft_cmditer(t_cmd *lst, void (*f)(char **));
 void	cleanup_struct(t_pipe *pipe);
 
 // deal with the processes
 pid_t	fork_process(void);
+void	run_pipes(t_pipe *pipe, char **envp);
 void	run_process(char *cmd, char **envp, int pipe_in[2], int pipe_out[2]);
 void	create_pipes(int pipe_fd[2]);
 void	close_pipes(int pipe[2], int next_pipe[2]);
@@ -67,5 +67,6 @@ void	cleanup(char **exec_args);
 // deal with files
 int		in_file_open(char *file_read);
 int		out_file_open(char *file_write);
+void	out_file_create(char *file_write);
 
 #endif

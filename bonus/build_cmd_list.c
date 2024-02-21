@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 00:13:14 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/21 18:09:24 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:32:38 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,6 @@ void	ft_cmdadd_back(t_cmd **lst, t_cmd *new)
 	while (current->next)
 		current = current->next;
 	current->next = new;
-}
-
-void	ft_cmditer(t_cmd *lst, void (*f)(char **))
-{
-	t_cmd	*curr;
-
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		curr = lst;
-		lst = curr->next;
-		f(&curr->content);
-	}
 }
 
 void	cleanup_struct(t_pipe *pipe)
