@@ -28,15 +28,15 @@ For example:
 The program requires at least 4 inputs:
 
 __Basic version:__
-: **<input_file>** : This is where the program reads the info from. It must exist. Before executing the program.
-: **<first_command>** : Any shell executable script in the path.
-: **<second_command** : Any shell executable script in the path.
-: **<out_file>** : If it doesn't exist, the program will crate it. If it already exists, the user must have write permissions; otherwose the program will end without writing to this file.
+- **<input_file>** : This is where the program reads the info from. It must exist. Before executing the program.
+- **<first_command>** : Any shell executable script in the path.
+- **<second_command** : Any shell executable script in the path.
+- **<out_file>** : If it doesn't exist, the program will crate it. If it already exists, the user must have write permissions; otherwose the program will end without writing to this file.
 
 __Bonus version:__
-: **<input file>** : If there's not such a file in the system, the user can use **here_doc** followed by the **closing command**. This will give the user the option to write on a temporary file that will become the input.
-: **<unlimited_amount_of_shell_commands>** : The only condition is that they must be in the part, and they can't contain simple commas (').
-: **<out_file>** : If it doesn't exist, the program will crate it. If it already exists, the user must have write permissions; otherwose the program will end without writing to this file.
+- **<input file>** : If there's not such a file in the system, the user can use **here_doc** followed by the **closing command**. This will give the user the option to write on a temporary file that will become the input.
+- **<unlimited_amount_of_shell_commands>** : The only condition is that they must be in the part, and they can't contain simple commas (').
+- **<out_file>** : If it doesn't exist, the program will crate it. If it already exists, the user must have write permissions; otherwose the program will end without writing to this file.
 
 ## Compilation
 ```c
