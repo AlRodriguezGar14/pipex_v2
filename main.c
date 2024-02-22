@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:23:51 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/22 01:50:51 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/22 04:42:28 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	main(int argc, char **argv, char **envp)
 	int		pid;
 	int		status;
 
-	if (argc < 5)
-		return (ft_fd_printf(2, "Wrong input, at least 4 args needed\n"), 1);
+	if (argc != 5)
+		return (ft_fd_printf(2, "\tWrong input, only 4 args are accepted.\n"),
+			ft_fd_printf(2, "\tFormat: ./pipex <in> <cmd1> <cmd2> <out>\n"),
+			1);
 	pipe = init_struct(argc, argv);
 	pid = fork_process();
 	if (pid == 0)
