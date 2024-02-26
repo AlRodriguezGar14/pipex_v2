@@ -1,6 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   files_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 14:45:17 by alberrod          #+#    #+#             */
+/*   Updated: 2024/02/26 10:31:10 by alberrod         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   files_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
@@ -26,11 +38,11 @@ int	in_file_open(char *file_read)
 	return (file_in);
 }
 
-int	out_file_open(char *file_write)
+int	out_file_open(char *file_write, int write_mode)
 {
 	int	file_out;
 
-	file_out = open(file_write, O_WRONLY | O_TRUNC, 0644);
+	file_out = open(file_write, O_WRONLY | write_mode, 0644);
 	if (file_out == -1)
 		unix_error("write error", file_write);
 	return (file_out);

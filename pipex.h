@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 14:45:17 by alberrod          #+#    #+#             */
+/*   Updated: 2024/02/26 10:32:05 by alberrod         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:58 by alberrod          #+#    #+#             */
@@ -38,12 +50,14 @@ typedef struct s_pipe
 	char	*files[2];
 	int		pipe_fd[2];
 	int		next_pipe[2];
+	int		write_mode;
 	t_cmd	*cmd_list;
 	t_cmd	*cmd_head;
 }	t_pipe;
 
 // parse_inputs.c
-void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
+//void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
+void	parse_input(int argc, char **argv, char *files[2], t_pipe *pipe);
 char	*extract_path(char **envp, char *cmd);
 
 // build cmd list
@@ -66,7 +80,7 @@ void	cleanup(char **exec_args);
 
 // deal with files
 int		in_file_open(char *file_read);
-int		out_file_open(char *file_write);
+int	out_file_open(char *file_write, int write_mode);
 void	out_file_create(char *file_write);
 
 #endif

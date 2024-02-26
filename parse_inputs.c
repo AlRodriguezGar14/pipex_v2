@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse_inputs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 14:45:17 by alberrod          #+#    #+#             */
+/*   Updated: 2024/02/26 10:32:35 by alberrod         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_inputs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: alberrod <alberrod@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 23:55:59 by alberrod          #+#    #+#             */
@@ -46,7 +58,7 @@ static void	parse_here_doc(char **argv)
 	close(in_file);
 }
 
-void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list)
+void	parse_input(int argc, char **argv, char *files[2], t_pipe *pipe)
 {
 	int	idx;
 
@@ -57,9 +69,10 @@ void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list)
 		ft_printf("Write your input followed by new-line:\n");
 		parse_here_doc(argv);
 		files[STDIN] = ft_strdup("/tmp/here_doc");
+		pipe->write_mode = O_APPEND;
 		idx++;
 	}
 	else
 		files[STDIN] = parse_file(argv, 1);
-	parse_commands(argc, argv, cmd_list, idx);
+	parse_commands(argc, argv, &pipe->cmd_list, idx);
 }
