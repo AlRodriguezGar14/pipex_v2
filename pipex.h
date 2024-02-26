@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 14:45:17 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/26 10:32:05 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:42:38 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ typedef struct s_pipe
 }	t_pipe;
 
 // parse_inputs.c
-//void	parse_input(int argc, char **argv, char *files[2], t_cmd **cmd_list);
 void	parse_input(int argc, char **argv, char *files[2], t_pipe *pipe);
 char	*extract_path(char **envp, char *cmd);
 
 // build cmd list
 t_cmd	*ft_cmdnew(void *content);
 void	ft_cmdadd_back(t_cmd **lst, t_cmd *new);
-// void	ft_cmditer(t_cmd *lst, void (*f)(char **));
 void	cleanup_struct(t_pipe *pipe);
 
 // deal with the processes
@@ -80,7 +78,7 @@ void	cleanup(char **exec_args);
 
 // deal with files
 int		in_file_open(char *file_read);
-int	out_file_open(char *file_write, int write_mode);
+int		out_file_open(char *file_write, int write_mode);
 void	out_file_create(char *file_write);
 
 #endif

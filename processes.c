@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 14:45:17 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/26 10:29:43 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:42:14 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	run_pipes(t_pipe *pipe, char **envp)
 	{
 		create_pipes(pipe->next_pipe);
 		if (!pipe->cmd_list->next)
-			pipe->next_pipe[STDOUT] = out_file_open(pipe->files[STDOUT], pipe->write_mode);
+			pipe->next_pipe[STDOUT] = out_file_open(pipe->files[STDOUT],
+					pipe->write_mode);
 		if (pipe->cmd_list == pipe->cmd_head)
 			pipe->pipe_fd[STDIN] = in_file_open(pipe->files[STDIN]);
 		run_process(pipe->cmd_list->content, envp,

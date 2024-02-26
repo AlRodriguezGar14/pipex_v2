@@ -6,7 +6,7 @@
 /*   By: alberrod <alberrod@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 14:45:17 by alberrod          #+#    #+#             */
-/*   Updated: 2024/02/26 10:32:35 by alberrod         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:47:08 by alberrod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,18 @@ static void	parse_here_doc(char **argv)
 
 	in_file = open("/tmp/here_doc", O_CREAT | O_RDWR, 0644);
 	line = get_next_line(STDIN);
+	if (!line)
+	{
+		close(in_file);
+		return ;
+	}
 	while (ft_strncmp(line, argv[2], ft_strlen(argv[2])))
 	{
 		write(in_file, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN);
+		if (!line)
+			break ;
 	}
 	free(line);
 	close(in_file);
